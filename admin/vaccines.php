@@ -180,7 +180,7 @@
                         
                         $sqlmain= "select * from doctors where docEmail='$keyword' or doctorName='$keyword' or doctorName like '$keyword%' or doctorName like '%$keyword' or doctorName like '%$keyword%' where hosid='$hosid'";
                     }else{
-                        $sqlmain= "select * from doctors where hosid='$hosid' order by docid desc";
+                        $sqlmain= "select * from vaccines where hosid='$hosid' order by vid desc";
 
                     }
 
@@ -242,31 +242,30 @@
                                 else{
                                 for ( $x=0; $x<$result->num_rows;$x++){
                                     $row=$result->fetch_assoc();
-                                    $docid=$row["docid"];
-                                    $name=$row["doctorName"];
-                                    $email=$row["docEmail"];
-                                    $spe=$row["specilization"];
+                                    $vid=$row["vid"];
+                                    $vname=$row["vname"];
+                                    $quantity=$row["quantity"];
+                                    $expiry_date=$row["expiry_date"];
                                     // $spcil_res= $database->query("select sname from specialties where id='$spe'");
                                     // $spcil_array= $spcil_res->fetch_assoc();
                                     // $spcil_name=$spcil_array["sname"];
                                     echo '<tr>
                                         <td> &nbsp;'.
-                                        substr($name,0,30)
+                                        substr($vname,0,30)
                                         .'</td>
                                         <td>
-                                        '.substr($email,0,20).'
+                                        '.substr($quantity,0,20).'
                                         </td>
                                         <td>
-                                            '.substr($spe,0,20).'
+                                            '.substr($expiry_date,0,20).'
                                         </td>
 
                                         <td>
                                         <div style="display:flex;justify-content: center;">
-                                        <a href="?action=edit&id='.$docid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
+                                        <a href="?action=edit&id='.$vid.'&error=0" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-edit"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Edit</font></button></a>
                                         &nbsp;&nbsp;&nbsp;
-                                        <a href="?action=view&id='.$docid.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-view"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">View</font></button></a>
-                                       &nbsp;&nbsp;&nbsp;
-                                       <a href="?action=drop&id='.$docid.'&name='.$name.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
+                                        
+                                       <a href="?action=drop&id='.$vid.'&name='.$vname.'" class="non-style-link"><button  class="btn-primary-soft btn button-icon btn-delete"  style="padding-left: 40px;padding-top: 12px;padding-bottom: 12px;margin-top: 10px;"><font class="tn-in-text">Remove</font></button></a>
                                         </div>
                                         </td>
                                     </tr>';
@@ -301,13 +300,13 @@
                     <div class="popup">
                     <center>
                         <h2>Are you sure?</h2>
-                        <a class="close" href="doctors.php">&times;</a>
+                        <a class="close" href="vaccines.php">&times;</a>
                         <div class="content">
                             You want to delete this record<br>('.substr($nameget,0,40).').
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
-                        <a href="delete-doctor.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
+                        <a href="delete-vaccine.php?id='.$id.'" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"<font class="tn-in-text">&nbsp;Yes&nbsp;</font></button></a>&nbsp;&nbsp;&nbsp;
                         <a href="doctors.php" class="non-style-link"><button  class="btn-primary btn"  style="display: flex;justify-content: center;align-items: center;margin:10px;padding:10px;"><font class="tn-in-text">&nbsp;&nbsp;No&nbsp;&nbsp;</font></button></a>
 
                         </div>
@@ -441,7 +440,7 @@
                     <div class="popup">
                     <center>
                     
-                        <a class="close" href="doctors.php">&times;</a> 
+                        <a class="close" href="vaccines.php">&times;</a> 
                         <div style="display: flex;justify-content: center;">
                         <div class="abc">
                         <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -457,88 +456,38 @@
                             </tr>
                             
                             <tr>
-                                <form action="add-new.php" method="POST" class="add-new-form">
+                                <form action="add-new-vaccine.php" method="POST" class="add-new-form">
                                 <td class="label-td" colspan="2">
                                     <label for="name" class="form-label">Name: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="text" name="name" class="input-text" placeholder="Doctor Name" required><br>
+                                    <input type="text" name="vname" class="input-text" placeholder="Vaccine Name" required><br>
                                 </td>
                                 
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="Email" class="form-label">Email: </label>
+                                    <label for="quantity" class="form-label">Quantity: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="email" name="docEmail" class="input-text" placeholder="Email Address" required><br>
+                                    <input type="text" name="quantity" class="input-text" placeholder="Quantity" required><br>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="experience" class="form-label">Experience: </label>
+                                    <label for="expiry_date" class="form-label">Expiry Date: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="numeric" name="experience" class="input-text" placeholder="Enter Experience" required><br>
+                                    <input type="date" name="expiry_date" class="input-text" placeholder="Enter Expiry Date" required><br>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="Tele" class="form-label">Contact No: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <input type="tel" name="Tele" class="input-text" placeholder="Contact Number" required><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="spec" class="form-label">Choose specilization: </label>
-                                    
-                                </td>
-                            </tr>
-
                             
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select name="spec" id="" class="box" >';
-                                        
-                                    echo "<option value=MBBS>MBBS</option><br/>";
-                                    echo "<option value=MD>MD</option><br/>";
-        
-                                        
-                        echo     '       </select><br>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="gender" class="form-label">Choose Gender: </label>
-                                    
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <select name="gender" id="" class="box" >';
-                                        
-                                    echo "<option value=Male>Male</option><br/>";
-                                    echo "<option value=Female>Female</option><br/>";
-        
-        
-        
-                                        
-                        echo     '       </select><br>
-                                </td>
-                            </tr>
                             
                             <tr>
                                 <td colspan="2">
@@ -584,14 +533,13 @@
         ';
             }
         }elseif($action=='edit'){
-            $sqlmain= "select * from doctors where docid='$id'";
+            $sqlmain= "select * from vaccines where vid='$vid'";
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["doctorName"];
-            $email=$row["docEmail"];
-            $spe=$row["specilization"];
-            $tele=$row['contactno'];
-            $experience=$row['experience'];
+            $vname=$row["vname"];
+            $quantity=$row["quantity"];
+            $expiry_date=$row["expiry_date"];
+            
 
             $error_1=$_GET["error"];
                 $errorlist= array(
@@ -609,7 +557,7 @@
                             <div class="popup">
                             <center>
                             
-                                <a class="close" href="doctors.php">&times;</a> 
+                                <a class="close" href="vaccines.php">&times;</a> 
                                 <div style="display: flex;justify-content: center;">
                                 <div class="abc">
                                 <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -620,32 +568,32 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Doctor Details.</p>
-                                        Doctor ID : '.$id.' (Auto Generated)<br><br>
+                                            <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Vaccine Details.</p>
+                                        Vaccine ID : '.$vid.' (Auto Generated)<br><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <form action="edit-doc.php" method="POST" class="add-new-form">
+                                            <form action="edit-vaccine.php" method="POST" class="add-new-form">
                                             <label for="Email" class="form-label">Email: </label>
-                                            <input type="hidden" value="'.$id.'" name="id00">
-                                            <input type="hidden" name="oldemail" value="'.$email.'" >
+                                            <input type="hidden" value="'.$vid.'" name="id00">
+                                            <input type="hidden" name="oldemail" value="'.$quantity.'" >
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                        <input type="email" name="email" class="input-text" placeholder="Email Address" value="'.$email.'" required><br>
+                                        <input type="text" name="vname" class="input-text" placeholder="Enter Vaccine Name" value="'.$vname.'" required><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         
                                         <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Name: </label>
+                                            <label for="quantity" class="form-label">Quantity: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="name" class="input-text" placeholder="Doctor Name" value="'.$name.'" required><br>
+                                            <input type="numeric" name="quantity" class="input-text" placeholder="Quantity" value="'.$quantity.'" required><br>
                                         </td>
                                         
                                     </tr>
@@ -653,49 +601,18 @@
                                     <tr>
                                         
                                         <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Experience : </label>
+                                            <label for="name" class="form-label">Expiry Date : </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="experience" class="input-text" placeholder="Doctor Name" value="'.$experience.'" required><br>
+                                            <input type="date" name="expiry_date" class="input-text" placeholder="Expiry Date" value="'.$expiry_date.'" required><br>
                                         </td>
                                         
                                     </tr>
                                     
                                     
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <label for="Tele" class="form-label">Telephone: </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <input type="tel" name="Tele" class="input-text" placeholder="Telephone Number" value="'.$tele.'" required><br>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <label for="spec" class="form-label">Choose specialties: (Current'.$spe.')</label>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <select name="spec" id="" class="box">';
-                                                
-                
-    
-                                                    echo "<option value=MBBS>MBBS</option><br/>";
-                                                    echo "<option value=MD>MD</option><br/>";
-                                                
-                
-                
-                
-                                                
-                                echo     '       </select><br><br>
-                                        </td>
-                                    </tr>
+                                    
                                     
                                     
                         

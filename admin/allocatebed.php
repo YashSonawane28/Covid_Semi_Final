@@ -43,6 +43,8 @@ if ($_POST) {
     $sql1 = "insert into patients(pemail,hosid,PatientName,Phone_no,Admission_Date,gender,Age,DOB,Disease_Hist,Blood_Grp,bedid) values('$pemail','$hosid','$PatientName','$Phone_no',sysdate(),'$gender','$Age','$DOB','$Disease_Hist','$Blood_Grp','$bedid');";
     //$sql2="insert into webuser values('$email','d')";
     $database->query($sql1);
+    $sql3 = "delete from enquiry where pemail='$pemail' ;";
+    $database->query($sql3);
 
     // $sql1="update webuser set email='$email' where email='$oldemail' ;";
     // $database->query($sql1);

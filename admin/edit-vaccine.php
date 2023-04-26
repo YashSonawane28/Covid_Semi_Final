@@ -11,33 +11,14 @@
     if($_POST){
         //print_r($_POST);
         //$result= $database->query("select * from webuser");
-        $PatientName=$_POST['PatientName'];
-        $oldemail=$_POST["oldemail"];
-        //$bg=$_POST['bg'];
-        $pemail=$_POST['pemail'];
-        $Phone_no=$_POST['Phone_no'];
-        $bedid=$_POST['bedid'];
-        //$DOB=$_POST['DOB'];
-       // $patientid=$_POST['patientid'];
-        //echo($_SESSION('$PatientName'));
+        $vname=$_POST['vname'];
+        $quantity=$_POST["quantity"];
+        $expiry_date=$_POST['expiry_date'];
+        $id=$_POST['id00'];
+
         //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-        //$sql1="update patients set pemail='$pemail',PatientName='$PatientName',Phone_no='$Phone_no' where patientid=$patientid ;";
-        $sql1="insert into patients(pemail,PatientName,Phone_no,bedid) VALUES('$pemail','$PatientName','$Phone_no','$bedid');";
+        $sql1="update vaccines set vname='$vname',quantity='$quantity',expiry_date='$expiry_date' where vid=$id ;";
         $database->query($sql1);
-
-        $hosid1 = $database->query("select  patientid from patients where pemail = '$pemail';");
-        for ($y=0;$y<$hosid1->num_rows;$y++){
-            $row00 = $hosid1->fetch_assoc();
-            $patientid = $row00["patientid"];
-        }
-        ;
-
-        $sql2="update beds set patientid='$patientid' where bedid='$bedid' ;";
-        $database->query($sql2);
-
-        // $sql3="delete from enquiry where pemail='$pemail';";
-        // $database->query($sql3);
-
         
         // $sql1="update webuser set email='$email' where email='$oldemail' ;";
         // $database->query($sql1);
@@ -89,7 +70,7 @@
     }
     
 
-    header("location: patient.php?action=edit&error=".$error."&id=".$id);
+    header("location: doctors.php?action=edit&error=".$error."&id=".$id);
     ?>
     
    
