@@ -86,7 +86,7 @@
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Bed Requests</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
@@ -110,10 +110,10 @@
                     </td>
                     <td>
                         
-                        <form action="" method="post" class="header-search">
+                        <!-- <form action="" method="post" class="header-search">
 
                             <input type="search" name="search" class="input-text header-searchbar" placeholder="Search bed name or Email" list="doctors">&nbsp;&nbsp;
-                            
+                             -->
                             <?php
                                 echo '<datalist id="doctors">';
                                 $list11 = $database->query("select  bedid,roomtype from  beds where hosid='$hosid';");
@@ -130,8 +130,8 @@
 ?>
                             
                        
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
+                            <!-- <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                         -->
                         </form>
                         
                     </td>
@@ -311,8 +311,9 @@
             </div>
             ';
         }elseif($action=='view'){
-            $sqlmain= "select * from bedinfo where bedid='$bedid'";
-            $result= $database->query($sqlmain);
+            // $sqlmain= "CREATE OR REPLACE VIEW bedinfo AS SELECT beds.bedid , beds.roomtype , patients.patientid,patients.PatientName , patients.Phone_no , patients.Disease_Hist from beds,patients where patients.patientid=beds.bedid";
+            $sqlmain2="SELECT beds.bedid , beds.roomtype , patients.patientid,patients.PatientName , patients.Phone_no , patients.Disease_Hist from beds LEFT OUTER JOIN patients ON $bedid=patients.bedid WHERE beds.bedid='$bedid' and patients.hosid='$hosid' ;";
+            $result= $database->query($sqlmain2);
             $row=$result->fetch_assoc();
             $bedid=$row["bedid"];
            // $wardno=$row["wardno"];
@@ -352,27 +353,8 @@
                                 </td>
                                 
                             </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="bedid" class="form-label">Bed ID: </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$bedid.'<br><br>
-                                </td>
-                            </tr>
-                    
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                    <label for="roomtype" class="form-label">Room Type : </label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="label-td" colspan="2">
-                                '.$roomtype.'<br><br>
-                                </td>
-                            </tr>
+                            
+                           
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="Phone_no" class="form-label">Phone No: </label>
@@ -517,14 +499,13 @@
         ';
             }
         }elseif($action=='edit'){
-            $sqlmain= "select * from doctors where docid='$id'";
+            $sqlmain= "select * from beds where bedid='$bedid'";
+    
             $result= $database->query($sqlmain);
             $row=$result->fetch_assoc();
-            $name=$row["doctorName"];
-            $email=$row["docEmail"];
-            $spe=$row["specilization"];
-            $tele=$row['contactno'];
-            $experience=$row['experience'];
+            $patientid=$row["patientid"];
+            $roomtype=$row["roomtype"];
+            $bedid=$row["bedid"];
 
             $error_1=$_GET["error"];
                 $errorlist= array(
@@ -542,7 +523,7 @@
                             <div class="popup">
                             <center>
                             
-                                <a class="close" href="doctors.php">&times;</a> 
+                                <a class="close" href="appointment.php">&times;</a> 
                                 <div style="display: flex;justify-content: center;">
                                 <div class="abc">
                                 <table width="80%" class="sub-table scrolldown add-doc-form-container" border="0">
@@ -554,31 +535,27 @@
                                     <tr>
                                         <td>
                                             <p style="padding: 0;margin: 0;text-align: left;font-size: 25px;font-weight: 500;">Edit Doctor Details.</p>
-                                        Doctor ID : '.$id.' (Auto Generated)<br><br>
+                                        Bed ID : '.$bedid.' (Auto Generated)<br><br>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <form action="edit-doc.php" method="POST" class="add-new-form">
-                                            <label for="Email" class="form-label">Email: </label>
-                                            <input type="hidden" value="'.$id.'" name="id00">
-                                            <input type="hidden" name="oldemail" value="'.$email.'" >
+                                            <form action="edit-bed.php" method="POST" class="add-new-form">
+                                            
+                                            <input type="hidden" value="'.$bedid.'" name="bedid">
+                                            
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                        <input type="email" name="email" class="input-text" placeholder="Email Address" value="'.$email.'" required><br>
-                                        </td>
-                                    </tr>
+                                    
                                     <tr>
                                         
                                         <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Name: </label>
+                                            <label for="patientid" class="form-label">Patient ID: </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="name" class="input-text" placeholder="Doctor Name" value="'.$name.'" required><br>
+                                            <input type="text" name="patientid" class="input-text" placeholder="Patient ID" value="'.$patientid.'" required><br>
                                         </td>
                                         
                                     </tr>
@@ -586,49 +563,19 @@
                                     <tr>
                                         
                                         <td class="label-td" colspan="2">
-                                            <label for="name" class="form-label">Experience : </label>
+                                            <label for="roomtype" class="form-label">Room Type : </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="label-td" colspan="2">
-                                            <input type="text" name="experience" class="input-text" placeholder="Doctor Name" value="'.$experience.'" required><br>
+                                            <input type="text" name="roomtype" class="input-text" placeholder="Room Type" value="'.$roomtype.'" required><br>
                                         </td>
                                         
                                     </tr>
                                     
                                     
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <label for="Tele" class="form-label">Telephone: </label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <input type="tel" name="Tele" class="input-text" placeholder="Telephone Number" value="'.$tele.'" required><br>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <label for="spec" class="form-label">Choose specialties: (Current'.$spe.')</label>
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label-td" colspan="2">
-                                            <select name="spec" id="" class="box">';
-                                                
-                
-    
-                                                    echo "<option value=MBBS>MBBS</option><br/>";
-                                                    echo "<option value=MD>MD</option><br/>";
-                                                
-                
-                
-                
-                                                
-                                echo     '       </select><br><br>
-                                        </td>
-                                    </tr>
+                                   
+                                    
                                     
                                     
                         

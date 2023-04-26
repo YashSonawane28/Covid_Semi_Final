@@ -49,18 +49,25 @@
         //print_r($_POST);
         $result= $database->query("select * from patients");
         $PatientName=$_POST['PatientName'];
-        //$bg=$_POST['bg'];
+        $Blood_Grp=$_POST["Blood_Grp"];
         $pemail=$_POST['pemail'];
         $Phone_no=$_POST['Phone_no'];
-        //$Age=$_POST['Age'];
+        $Age=$_POST["Age"];
         $gender=$_POST['gender'];
+        $Admission_Date=$_POST['Admission_Date'];
+        $DOB=$_POST['DOB'];
+        $Admission_Date=$_POST['Admission_Date'];
+        $Disease_Hist=$_POST["Disease_Hist"];
+        $bedid=$_POST["bedid"];
+
+
         
         $result= $database->query("select * from patients where pemail='$pemail';");
             if($result->num_rows==1){
                 $error='1';
             }else{
 
-                $sql1="insert into patients(pemail,hosid,PatientName,Phone_no) values('$pemail','$hosid','$PatientName','$Phone_no');";
+                $sql1="insert into patients(pemail,hosid,PatientName,Phone_no,Admission_Date,gender,Age,DOB,Disease_Hist,Blood_Grp,bedid) values('$pemail','$hosid','$PatientName','$Phone_no','$Admission_Date','$gender','$Age','$DOB','$Disease_Hist','$Blood_Grp','$bedid');";
                 //$sql2="insert into webuser values('$email','d')";
                 $database->query($sql1);
                 //$database->query($sql2);

@@ -86,17 +86,22 @@
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Bed Requests</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Beds</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-patient">
                         <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">Patients</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-doctor ">
+                        <a href="vaccines.php" class="non-style-link-menu "><div><p class="menu-text">Vaccines</p></a></div>
                     </td>
                 </tr>
 
@@ -110,10 +115,10 @@
                     </td>
                     <td>
                         
-                        <form action="" method="post" class="header-search">
+                        <!-- <form action="" method="post" class="header-search">
 
                             <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Patient name or Email" list="patients">&nbsp;&nbsp;
-                            
+                             -->
                             <?php
                                 echo '<datalist id="patients">';
                                 $list11 = $database->query("select  PatientName,pemail from  patients where hosid='$hosid';");
@@ -130,8 +135,8 @@
 ?>
                             
                        
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
+                            <!-- <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                         -->
                         </form>
                         
                     </td>
@@ -240,7 +245,7 @@
                                     $patientid=$row["patientid"];
                                     $PatientName=$row["PatientName"];
                                     $pemail=$row["pemail"];
-                                    $bg=$row["Blood_Grp"];
+                                    $Blood_Grp=$row["Blood_Grp"];
                                     // $spcil_res= $database->query("select sname from specialties where id='$spe'");
                                     // $spcil_array= $spcil_res->fetch_assoc();
                                     // $spcil_name=$spcil_array["sname"];
@@ -252,7 +257,7 @@
                                         '.substr($pemail,0,20).'
                                         </td>
                                         <td>
-                                            '.substr($bg,0,20).'
+                                            '.substr($Blood_Grp,0,20).'
                                         </td>
 
                                         <td>
@@ -316,14 +321,20 @@
             </div>
             ';
         }elseif($action=='view'){
+            //<h2>Patient is '.$patientid.' </h2>
+            
             $sqlmain= "select * from patients where patientid='$patientid'";
             $result= $database->query($sqlmain);
+           
             $row=$result->fetch_assoc();
-            $name=$row["PatientName"];
-            $email=$row["pemail"];
-            $bg=$row["Blood_Grp"];
+            $PatientName=$row["PatientName"];
+           // echo "<script>alert('$name')</script>";
+            $pemail=$row["pemail"];
+            $Blood_Grp=$row["Blood_Grp"];
             $Phone_no=$row['Phone_no'];
             $Age=$row['Age'];
+            $bedid=$row['bedid'];
+            $Disease_Hist=$row['Disease_Hist'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -331,7 +342,7 @@
                         <h2></h2>
                         <a class="close" href="patient.php">&times;</a>
                         <div class="content">
-                            Doctors Information<br>
+                            Patients Information<br>
                             
                         </div>
                         <div style="display: flex;justify-content: center;">
@@ -350,6 +361,7 @@
                                 </td>
                             </tr>
                             <tr>
+                        
                                 <td class="label-td" colspan="2">
                                     '.$PatientName.'<br><br>
                                 </td>
@@ -376,14 +388,42 @@
                                 '.$Phone_no.'<br><br>
                                 </td>
                             </tr>
+
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="bg" class="form-label">Blood Group: </label>
+                                    <label for="Reqbed" class="form-label"> Bed ID: </label>
                                 </td>
                             </tr>
                             <tr>
                             <td class="label-td" colspan="2">
-                            '.$bg.'<br><br>
+                            '.$bedid.'<br><br>
+                            </td>
+                            </tr>
+
+                        
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="Disease_Hist" class="form-label">Disease History: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                            '.$Disease_Hist.'<br><br>
+                            </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="Blood_Grp" class="form-label">Blood Group: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                            '.$Blood_Grp.'<br><br>
                             </td>
                             </tr>
                             <tr>
@@ -468,12 +508,12 @@
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <label for="age" class="form-label">Age: </label>
+                                    <label for="Age" class="form-label">Age: </label>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <input type="numeric" name="age" class="input-text" placeholder="Enter Age" required><br>
+                                    <input type="numeric" name="Age" class="input-text" placeholder="Enter Age" required><br>
                                 </td>
                             </tr>
                             <tr>
@@ -487,6 +527,74 @@
                                 </td>
                             </tr>
                             <tr>
+
+
+                            <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="Blood_Grp" class="form-label">Choose Blood Group: </label>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <select name="Blood_Grp" id="" class="box">';
+                                                
+                
+    
+                                                   
+                                                    echo "<option value=A+>A+</option><br/>";
+                                                    echo "<option value=A->A-</option><br/>";
+                                                    echo "<option value=B+>B+</option><br/>";
+                                                    echo "<option value=B->B-</option><br/>";
+                                                    echo "<option value=O+>O+</option><br/>";
+                                                    echo "<option value=O->O-</option><br/>";
+                                                    echo "<option value=AB+>AB+</option><br/>";
+                                                    echo "<option value=AB->AB-</option><br/>";
+                
+                
+                
+                                                
+                                echo     '       </select><br><br>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="DOB" class="form-label">Date of Birth: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="date" name="DOB" class="input-text" placeholder="DOBr"  required><br>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="DOB" class="form-label">Admission Date: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="date" name="Admission_Date" class="input-text" placeholder="Admission Date" required><br>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        
+                                        <td class="label-td" colspan="2">
+                                            <label for="Disease_Hist" class="form-label">Disease History : </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="text" name="Disease_Hist" class="input-text" placeholder="Disease History "  required><br>
+                                        </td>
+                                        
+                                    </tr>
+
+
                                 <td class="label-td" colspan="2">
                                     <label for="spec" class="form-label">Choose Gender: </label>
                                     
@@ -499,6 +607,33 @@
                                         
                                     echo "<option value=Male>Male</option><br/>";
                                     echo "<option value=Female>Female</option><br/>";
+        
+        
+        
+                                        
+                        echo     '       </select><br>
+                                </td>
+                            </tr>
+
+                            <tr>
+                            <td class="label-td" colspan="2">
+                                <label for="Blood_Grp" class="form-label">Choose Bed NO:</label>
+                                
+                            </td>
+                        </tr>
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <select name="bedid" id="" class="box" >';
+                                        
+        
+                                        $list11 = $database->query("select  * from  beds where patientid=0;");
+
+                                        for ($y=0;$y<$list11->num_rows;$y++){
+                                            $row00=$list11->fetch_assoc();
+                                            $bedid=$row00["bedid"];
+                                            $id00=$row00["bedid"];
+                                            echo "<option value=".$id00.">$bedid</option><br/>";
+                                        };
         
         
         
@@ -558,9 +693,13 @@
             $row=$result->fetch_assoc();
             $PatientName=$row["PatientName"];
             $pemail=$row["pemail"];
-            $bg=$row["Blood_Grp"];
+            $Blood_Grp=$row["Blood_Grp"];
             $Phone_no=$row['Phone_no'];
             $Age=$row['Age'];
+            $Disease_Hist=$row['Disease_Hist'];
+            $Admission_Date=$row['Admission_Date'];
+            $DOB=$row['DOB'];
+
 
             $error_1=$_GET["error"];
                 $errorlist= array(
@@ -643,6 +782,73 @@
                                             <input type="tel" name="Phone_no" class="input-text" placeholder="Telephone Number" value="'.$Phone_no.'" required><br>
                                         </td>
                                     </tr>
+
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="Blood_Grp" class="form-label">Choose Blood Group: (Current'.$Blood_Grp.')</label>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <select name="Blood_Grp" id="" class="box">';
+                                                
+                
+    
+                                                   
+                                                    echo "<option value=A+>A+</option><br/>";
+                                                    echo "<option value=A->A-</option><br/>";
+                                                    echo "<option value=B+>B+</option><br/>";
+                                                    echo "<option value=B->B-</option><br/>";
+                                                    echo "<option value=O+>O+</option><br/>";
+                                                    echo "<option value=O->O-</option><br/>";
+                                                    echo "<option value=AB+>AB+</option><br/>";
+                                                    echo "<option value=AB->AB-</option><br/>";
+                
+                
+                
+                                                
+                                echo     '       </select><br><br>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="DOB" class="form-label">Date of Birth: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="date" name="DOB" class="input-text" placeholder="DOBr" value="'.$DOB.'" required><br>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <label for="DOB" class="form-label">Admission Date: </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="date" name="Admission_Date" class="input-text" placeholder="Admission Date" value="'.$Admission_Date.'" required><br>
+                                        </td>
+                                    </tr>
+
+                                    
+                                    <tr>
+                                        
+                                        <td class="label-td" colspan="2">
+                                            <label for="Disease_Hist" class="form-label">Disease History : </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label-td" colspan="2">
+                                            <input type="text" name="Disease_Hist" class="input-text" placeholder="Disease History " value="'.$Disease_Hist.'" required><br>
+                                        </td>
+                                        
+                                    </tr>
+
+
                                     <tr>
                                         <td class="label-td" colspan="2">
                                             <label for="spec" class="form-label">Choose Gender: (Current'.$gender.')</label>
@@ -665,6 +871,7 @@
                                 echo     '       </select><br><br>
                                         </td>
                                     </tr>
+                                    
                                     
                                     
                         

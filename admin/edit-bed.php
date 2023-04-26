@@ -6,28 +6,20 @@
     //import database
     include("../connection.php");
 
-
-
     if($_POST){
         //print_r($_POST);
         //$result= $database->query("select * from webuser");
-        $PatientName=$_POST['PatientName'];
-        $oldemail=$_POST["oldemail"];
-        $Blood_Grp=$_POST['Blood_Grp'];
-        $pemail=$_POST['pemail'];
-        $Phone_no=$_POST['Phone_no'];
-        $DOB=$_POST['DOB'];
+        $bedid=$_POST['bedid'];
+        // $oldemail=$_POST["oldemail"];
+        $roomtype=$_POST['roomtype'];
         $patientid=$_POST['patientid'];
-        $gender=$_POST['gender'];
-        $Admission_Date=$_POST['Admission_Date'];
-        $Age=$_POST["Age"];
-        $DOB=$_POST['DOB'];
-        $Disease_Hist=$_POST["Disease_Hist"];
-        //echo($_SESSION('$PatientName'));
+        // $tele=$_POST['Tele'];
+        // $experience=$_POST['experience'];
+        // $id=$_POST['id00'];
+
         //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-        $sql1="update patients set pemail='$pemail',PatientName='$PatientName',Phone_no='$Phone_no',DOB='$DOB',Blood_Grp='$Blood_Grp',Disease_Hist='$Disease_Hist',Admission_Date='$Admission_Date',gender='$gender',Age='$Age' where patientid=$patientid ;";
+        $sql1="update beds set patientid='$patientid',bedid='$bedid',roomtype='$roomtype' where bedid=$bedid ;";
         $database->query($sql1);
-        
         // $sql1="update webuser set email='$email' where email='$oldemail' ;";
         // $database->query($sql1);
         //echo $sql1;
@@ -78,7 +70,7 @@
     }
     
 
-    header("location: patient.php?action=edit&error=".$error."&id=".$id);
+    header("location: appointment.php?action=edit&error=".$error."&id=".$id);
     ?>
     
    

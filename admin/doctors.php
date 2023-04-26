@@ -86,17 +86,22 @@
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-schedule">
-                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Schedule</p></div></a>
+                        <a href="schedule.php" class="non-style-link-menu"><div><p class="menu-text">Bed Requests</p></div></a>
                     </td>
                 </tr>
                 <tr class="menu-row">
                     <td class="menu-btn menu-icon-appoinment">
-                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Appointment</p></a></div>
+                        <a href="appointment.php" class="non-style-link-menu"><div><p class="menu-text">Beds</p></a></div>
                     </td>
                 </tr>
                 <tr class="menu-row" >
                     <td class="menu-btn menu-icon-patient">
                         <a href="patient.php" class="non-style-link-menu"><div><p class="menu-text">Patients</p></a></div>
+                    </td>
+                </tr>
+                <tr class="menu-row">
+                    <td class="menu-btn menu-icon-doctor ">
+                        <a href="vaccines.php" class="non-style-link-menu "><div><p class="menu-text">Vaccines</p></a></div>
                     </td>
                 </tr>
 
@@ -110,9 +115,9 @@
                     </td>
                     <td>
                         
-                        <form action="" method="post" class="header-search">
+                        <!-- <form action="" method="post" class="header-search">
 
-                            <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp;
+                            <input type="search" name="search" class="input-text header-searchbar" placeholder="Search Doctor name or Email" list="doctors">&nbsp;&nbsp; -->
                             
                             <?php
                                 echo '<datalist id="doctors">';
@@ -130,8 +135,8 @@
 ?>
                             
                        
-                            <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
-                        
+                            <!-- <input type="Submit" value="Search" class="login-btn btn-primary btn" style="padding-left: 25px;padding-right: 25px;padding-top: 10px;padding-bottom: 10px;">
+                         -->
                         </form>
                         
                     </td>
@@ -175,7 +180,7 @@
                         
                         $sqlmain= "select * from doctors where docEmail='$keyword' or doctorName='$keyword' or doctorName like '$keyword%' or doctorName like '%$keyword' or doctorName like '%$keyword%' where hosid='$hosid'";
                     }else{
-                        $sqlmain= "select * from doctors where hosid='$hosid' order by docid desc";
+                        $sqlmain= "call doc_details($hosid)";
 
                     }
 
@@ -319,6 +324,7 @@
             $spe=$row["specilization"];
             $tele=$row['contactno'];
             $experience=$row['experience'];
+            $gender=$row['gender'];
             echo '
             <div id="popup1" class="overlay">
                     <div class="popup">
@@ -360,7 +366,18 @@
                                 '.$email.'<br><br>
                                 </td>
                             </tr>
-                    
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <label for="gender" class="form-label">Gender: </label>
+                                </td>
+                            </tr>
+                            <tr>
+                            <td class="label-td" colspan="2">
+                            '.$gender.'<br><br>
+                            </td>
+                            </tr>
+
                             <tr>
                                 <td class="label-td" colspan="2">
                                     <label for="Tele" class="form-label">Contact No: </label>
@@ -488,14 +505,14 @@
                                 </td>
                             </tr>
 
+                            
+
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="gender" id="" class="box" >';
+                                    <select name="spec" id="" class="box" >';
                                         
-                                    echo "<option value=Male>Male</option><br/>";
-                                    echo "<option value=Female>Female</option><br/>";
-        
-        
+                                    echo "<option value=MBBS>MBBS</option><br/>";
+                                    echo "<option value=MD>MD</option><br/>";
         
                                         
                         echo     '       </select><br>
@@ -504,10 +521,17 @@
 
                             <tr>
                                 <td class="label-td" colspan="2">
-                                    <select name="spec" id="" class="box" >';
+                                    <label for="gender" class="form-label">Choose Gender: </label>
+                                    
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="label-td" colspan="2">
+                                    <select name="gender" id="" class="box" >';
                                         
-                                    echo "<option value=MBBS>MBBS</option><br/>";
-                                    echo "<option value=MD>MD</option><br/>";
+                                    echo "<option value=Male>Male</option><br/>";
+                                    echo "<option value=Female>Female</option><br/>";
         
         
         

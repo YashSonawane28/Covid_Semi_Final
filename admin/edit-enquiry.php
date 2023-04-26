@@ -13,20 +13,27 @@
         //$result= $database->query("select * from webuser");
         $PatientName=$_POST['PatientName'];
         $oldemail=$_POST["oldemail"];
-        $Blood_Grp=$_POST['Blood_Grp'];
+        //$bg=$_POST['bg'];
         $pemail=$_POST['pemail'];
         $Phone_no=$_POST['Phone_no'];
-        $DOB=$_POST['DOB'];
-        $patientid=$_POST['patientid'];
-        $gender=$_POST['gender'];
-        $Admission_Date=$_POST['Admission_Date'];
-        $Age=$_POST["Age"];
-        $DOB=$_POST['DOB'];
-        $Disease_Hist=$_POST["Disease_Hist"];
+        $bedid=$_POST['bedid'];
+        //$DOB=$_POST['DOB'];
+       // $patientid=$_POST['patientid'];
         //echo($_SESSION('$PatientName'));
         //$sql1="insert into doctor(docemail,docname,docpassword,docnic,doctel,specialties) values('$email','$name','$password','$nic','$tele',$spec);";
-        $sql1="update patients set pemail='$pemail',PatientName='$PatientName',Phone_no='$Phone_no',DOB='$DOB',Blood_Grp='$Blood_Grp',Disease_Hist='$Disease_Hist',Admission_Date='$Admission_Date',gender='$gender',Age='$Age' where patientid=$patientid ;";
+        //$sql1="update patients set pemail='$pemail',PatientName='$PatientName',Phone_no='$Phone_no' where patientid=$patientid ;";
+        $sql1="insert into patients(pemail,PatientName,Phone_no,bedid) VALUES('$pemail','$PatientName','$Phone_no','$bedid');";
         $database->query($sql1);
+
+        $hosid1 = $database->query("select  patientid from patients where pemail = '$pemail';");
+        for ($y=0;$y<$hosid1->num_rows;$y++){
+            $row00 = $hosid1->fetch_assoc();
+            $patientid = $row00["patientid"];
+        }
+        ;
+
+        $sql2="update beds set patientid='$patientid' where bedid='$bedid' ;";
+        $database->query($sql2);
         
         // $sql1="update webuser set email='$email' where email='$oldemail' ;";
         // $database->query($sql1);
